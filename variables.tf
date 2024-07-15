@@ -9,6 +9,11 @@ variable "name" {
   type        = string
   default     = ""
 }
+variable "region" {
+  description = "Region to deploy the EC2 to"
+  type        = string
+  default     = ""
+}
 
 variable "ami_ssm_parameter" {
   description = "SSM parameter name for the AMI ID. For Amazon Linux AMI SSM parameters see [reference](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-public-parameters-ami.html)"
