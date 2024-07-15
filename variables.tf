@@ -12,7 +12,7 @@ variable "name" {
 variable "region" {
   description = "Region to deploy the EC2 to"
   type        = string
-  default     = ""
+  default     = "eu-central-1"
 }
 
 variable "ami_ssm_parameter" {
