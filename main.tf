@@ -14,6 +14,21 @@ data "aws_ssm_parameter" "this" {
   name = var.ami_ssm_parameter
 }
 
+data "aws_ami" "latest-ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]  # Canonical's owner ID for Ubuntu AMIs
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 ################################################################################
 # Instance
 ################################################################################
@@ -21,7 +36,7 @@ data "aws_ssm_parameter" "this" {
 resource "aws_instance" "this" {
   count = local.create && !var.ignore_ami_changes && !var.create_spot_instance ? 1 : 0
 
-  ami                  = local.ami
+  ami                  = data.aws_ami.latest-ubuntu.id
   instance_type        = var.instance_type
   cpu_core_count       = var.cpu_core_count
   cpu_threads_per_core = var.cpu_threads_per_core
